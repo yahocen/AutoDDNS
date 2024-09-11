@@ -3,7 +3,11 @@ package org.addns.conf;
 import com.jsoniter.JsonIterator;
 import com.jsoniter.any.Any;
 import org.addns.util.FileUtil;
+import org.addns.util.LogUtil;
+import org.addns.util.ObjUtil;
+import org.addns.util.StrUtil;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,7 +24,11 @@ public class Config {
     }
 
     public Any getAny(Object ...keys) {
-        return json.get(keys);
+        Any any = json.get(keys);
+        if(ObjUtil.isNull(any) || any.toString().isBlank()) {
+            throw new RuntimeException(String.format("缺少必要设置：%s", Arrays.stream(keys).map(Object::toString).collect(Collectors.joining("."))));
+        }
+        return any;
     }
 
     public String getStr(Object ...keys) {

@@ -1,15 +1,15 @@
-package red.yhc;
+package org.addns;
 
 import com.jsoniter.JsonIterator;
 import com.jsoniter.any.Any;
-import red.yhc.conf.Config;
-import red.yhc.conf.Constant;
-import red.yhc.dns.DnsOper;
-import red.yhc.dns.TrafficRouteDnsOper;
-import red.yhc.util.FileUtil;
-import red.yhc.util.HttpUtil;
-import red.yhc.util.LogUtil;
-import red.yhc.util.StrUtil;
+import org.addns.conf.Constant;
+import org.addns.util.LogUtil;
+import org.addns.conf.Config;
+import org.addns.dns.DnsOper;
+import org.addns.dns.TrafficRouteDnsOper;
+import org.addns.util.FileUtil;
+import org.addns.util.HttpUtil;
+import org.addns.util.StrUtil;
 
 import java.io.File;
 import java.util.*;

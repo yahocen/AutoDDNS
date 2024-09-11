@@ -18,7 +18,7 @@
  * Copyright (C) 2012 HAMANO Tsukasa <hamano@osstech.co.jp>
  */
 
-package red.yhc.util.regdom4j;
+package org.addns.util.regdom4j;
 
 import java.util.Arrays;
 import java.util.HashMap;

@@ -1,9 +1,7 @@
-package red.yhc.util;
+package org.addns.util;
 
-import red.yhc.App;
-import red.yhc.conf.Constant;
+import org.addns.conf.Constant;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.logging.*;
 

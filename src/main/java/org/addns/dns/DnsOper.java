@@ -1,7 +1,4 @@
-package red.yhc.dns;
-
-import com.jsoniter.any.Any;
-import red.yhc.conf.Config;
+package org.addns.dns;
 
 /**
  * @author YahocenMiniPC

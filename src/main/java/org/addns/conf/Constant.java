@@ -1,4 +1,4 @@
-package red.yhc.conf;
+package org.addns.conf;
 
 /**
  * @author YahocenMiniPC

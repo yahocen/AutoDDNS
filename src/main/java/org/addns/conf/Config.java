@@ -1,8 +1,8 @@
-package red.yhc.conf;
+package org.addns.conf;
 
 import com.jsoniter.JsonIterator;
 import com.jsoniter.any.Any;
-import red.yhc.util.FileUtil;
+import org.addns.util.FileUtil;
 
 import java.util.List;
 import java.util.stream.Collectors;

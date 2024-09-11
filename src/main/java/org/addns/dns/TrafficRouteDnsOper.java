@@ -1,11 +1,11 @@
-package red.yhc.dns;
+package org.addns.dns;
 
 import com.jsoniter.JsonIterator;
 import com.jsoniter.any.Any;
 import com.jsoniter.output.JsonStream;
-import red.yhc.util.DomainUtil;
-import red.yhc.util.LogUtil;
-import red.yhc.util.StrUtil;
+import org.addns.util.DomainUtil;
+import org.addns.util.LogUtil;
+import org.addns.util.StrUtil;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;

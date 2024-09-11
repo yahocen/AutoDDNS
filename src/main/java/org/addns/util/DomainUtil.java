@@ -1,6 +1,6 @@
-package red.yhc.util;
+package org.addns.util;
 
-import red.yhc.util.regdom4j.RegDomain;
+import org.addns.util.regdom4j.RegDomain;
 
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;

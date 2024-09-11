@@ -1,4 +1,4 @@
-package red.yhc.util;
+package org.addns.util;
 
 /**
  * @author YahocenMiniPC

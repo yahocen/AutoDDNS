@@ -1,4 +1,4 @@
-package red.yhc.util;
+package org.addns.util;
 
 import java.io.IOException;
 import java.net.URI;

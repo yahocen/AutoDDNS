@@ -21,6 +21,7 @@ AutoDDNS（简称ADDNS）是一个动态域名解析系统更新工具，旨在�
 4. 运行 ADDNS，它会自动检测当前网络接口的IP地址并更新至DNS服务器。
 5. 根据系统选择合适任务调度方式：
    - [在Windows中使用任务计划程序设置定时任务](doc/在Windows中使用任务计划程序设置定时任务.md)
+   - Linux 或其他系统内容待完善
 
 ### 扩展支持
 
@@ -29,6 +30,12 @@ AutoDDNS（简称ADDNS）是一个动态域名解析系统更新工具，旨在�
 1. 在`src/main/java/org/addns/dns`目录下创建新的API适配器类，并继承`org.addns.dns.DnsOper`。
 2. 实现必要的方法来调用新服务提供商的API接口。
 3. 更新`main`函数或其他启动点，以便在运行时加载正确的适配器。
+
+## 自行编译
+
+1. 参考 https://www.graalvm.org/latest/docs/getting-started/ 搭建 GraalVM 编译环境
+2. 项目使用 Maven 构建，还需要安装 Maven 环境
+3. 并拉取本项目到本地，在项目根目录执行 `mvn clean package` 进行构建
 
 ## 贡献指南
 

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>red.yhc</groupId>
+    <artifactId>AutoDDNS</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>22</maven.compiler.source>
+        <maven.compiler.target>22</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <main-class>red.yhc.App</main-class>
+    </properties>
+
+    <dependencies>
+        <!-- JSON 序列化 http://jsoniter.com/index.cn.html -->
+        <dependency>
+            <groupId>com.jsoniter</groupId>
+            <artifactId>jsoniter</artifactId>
+            <version>0.9.23</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>${main-class}</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- https://app.slack.com/client/TN37RDLPK/CNBFR78F9 -->
+            <plugin>
+                <groupId>org.graalvm.nativeimage</groupId>
+                <artifactId>native-image-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>native-image</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <skip>false</skip>
+                    <!-- 指定打包后叫什么名字 -->
+                    <imageName>${project.artifactId}</imageName>
+                    <!-- 指定该jar包的入口主启动类 -->
+                    <mainClass>${main-class}</mainClass>
+                    <buildArgs>
+                        <!-- https://www.graalvm.org/latest/reference-manual/native-image/overview/Options/ -->
+                        <!-- 构建独立的原生可执行文件或报告失败 -->
+                        <buildArg>--no-fallback</buildArg>
+                        <!-- 启用详细输出 -->
+                        <buildArg>--verbose</buildArg>
+                        <!-- 将所有安全服务类添加到生成的本机可执行文件中 -->
+                        <buildArg>--enable-all-security-services</buildArg>
+                        <!-- 在本机可执行文件中启用 HTTP(s) 支持 -->
+                        <buildArg>--enable-http</buildArg>
+                        <buildArg>--enable-https</buildArg>
+                        <!-- 选择 Native Image 垃圾回收器实现: serial默认、G1在社区版中不可用、psilon表示Epsilon垃圾回收器 -->
+                        <buildArg>--gc=serial</buildArg>
+                    </buildArgs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

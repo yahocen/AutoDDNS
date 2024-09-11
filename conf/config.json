@@ -1,0 +1,29 @@
+{
+  "dns": [{
+    "name": "trddns1",
+    "type": "trddns",
+    "ak": "AK12345678900",
+    "sk": "SK88866666666=="
+  }],
+  "domains": [{
+    "domain": "test.example.com",
+    "dns": "trddns1",
+    "mode": "v4"
+  },{
+    "domain": "test.example.com",
+    "dns": "trddns1",
+    "mode": "v6"
+  }],
+  "v4api": [{
+    "url": "https://ipv4.my.ipinfo.app/api/ipDetails.php",
+    "field": "ip"
+  },{
+    "url": "https://4.ipw.cn/"
+  }],
+  "v6api": [{
+    "url": "https://ipv6.my.ipinfo.app/api/ipDetails.php",
+    "field": "ip"
+  },{
+    "url": "https://6.ipw.cn/"
+  }]
+}

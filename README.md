@@ -17,9 +17,9 @@ AutoDDNS（简称ADDNS）是一个动态域名解析系统更新工具，旨在�
 
 1. 下载最新版本的 ADDNS 从[发布页面](https://github.com/yahocen/AutoDDNS/releases/latest)。
 2. 解压下载的包到指定目录。
-3. 修改配置文件，参考[配置文件说明](https://github.com/yahocen/AutoDDNS/releases/latest)。
+3. 修改配置文件，参考[配置文件说明](doc/配置文件说明.md)。
 4. 运行 ADDNS，它会自动检测当前网络接口的IP地址并更新至DNS服务器。
-5. 根据系统选择合适任务调度方式，参考（[Windows任务调度方式](https://github.com/yahocen/AutoDDNS/releases/latest)，[Linux任务调度方式](https://github.com/yahocen/AutoDDNS/releases/latest)）
+5. 根据系统选择合适任务调度方式，参考（[Windows任务调度方式](doc/Windows任务调度方式.md)，[Linux任务调度方式](doc/Windows任务调度方式.md)）
 
 ### 扩展支持
 

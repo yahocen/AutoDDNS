@@ -110,7 +110,7 @@ public class App implements Runnable {
                 }
                 return result;
             }catch (Exception e){
-                LogUtil.error("获取IPv6地址错误: %s", e, api.get("url").toString());
+                LogUtil.error("获取IPv6地址错误: %s（%s）", api.get("url").toString(), e.getMessage());
             }
         }
         return null;

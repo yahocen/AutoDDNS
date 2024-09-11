@@ -12,19 +12,16 @@ public class LogUtil {
 
     private static final Logger LOGGER = Logger.getLogger(Constant.NAME);
 
-    private static final String LOG_PATH = "./log";
-
     static {
         // 设置全局日志级别
         LOGGER.setLevel(Level.ALL);
         try {
             //创建文件目录
-            if(!FileUtil.exist(LOG_PATH)) {
-                FileUtil.mkdir(LOG_PATH);
+            if(!FileUtil.exist(Constant.LOG_PATH)) {
+                FileUtil.mkdir(Constant.LOG_PATH);
             }
             // 文件处理器
-            String logName = String.format("%s/%s.log", LOG_PATH, Constant.NAME);
-            FileHandler fileHandler = new FileHandler(logName, Constant.LOG_LIMIT, Constant.LOG_COUNT, true);
+            FileHandler fileHandler = new FileHandler(Constant.LOG_NAME, Constant.LOG_LIMIT, Constant.LOG_COUNT, true);
             fileHandler.setEncoding("UTF-8");
             // 设置文件日志级别
             fileHandler.setLevel(Level.INFO);

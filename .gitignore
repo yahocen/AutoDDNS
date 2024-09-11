@@ -39,3 +39,4 @@ build/
 /.idea/
 /data/
 /log/
+/conf/test.json

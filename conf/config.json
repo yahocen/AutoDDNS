@@ -1,4 +1,5 @@
 {
+  "period": 120,
   "dns": [{
     "name": "trddns1",
     "type": "trddns",

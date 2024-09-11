@@ -27,6 +27,10 @@ public class Config {
         return getAny(keys).toString();
     }
 
+    public Long getLong(Object ...keys) {
+        return getAny(keys).toLong();
+    }
+
     public <T> List<T> getList(Class<T> clazz, Object ...keys) {
         return getAny(keys).asList().stream().map(i -> i.as(clazz)).collect(Collectors.toList());
     }

@@ -22,14 +22,9 @@ public class HttpUtil {
      * @return 响应内容
      */
     public static String get(String url) {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .GET()
-                .build();
-        HttpResponse<String> response;
         try {
-            response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
-            return response.body();
+            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
+            return HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString()).body();
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -44,25 +39,19 @@ public class HttpUtil {
      * @return 响应内容
      */
     public static String post(String url, String payload, HttpHeaders headers) {
-        HttpRequest.Builder builder = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .POST(HttpRequest.BodyPublishers.ofString(payload, StandardCharsets.UTF_8));
-
+        HttpRequest.Builder builder = HttpRequest.newBuilder().uri(URI.create(url)).POST(HttpRequest.BodyPublishers.ofString(payload, StandardCharsets.UTF_8));
         if (headers != null && !headers.isEmpty()) {
             headers.forEach(builder::header);
         }
-
-        HttpRequest request = builder.build();
-        HttpResponse<String> response;
         try {
-            response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
-            return response.body();
+            return HTTP_CLIENT.send(builder.build(), HttpResponse.BodyHandlers.ofString()).body();
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
     public static class HttpHeaders extends LinkedHashMap<String, String> {
+
         public HttpHeaders() {
             super();
         }
@@ -71,6 +60,7 @@ public class HttpUtil {
             put(key, value);
             return this;
         }
+
     }
 
 }

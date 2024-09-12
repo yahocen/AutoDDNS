@@ -66,8 +66,9 @@ public class FileUtil {
         return (null != file) && Files.exists(file);
     }
 
-    public static void writeUtf8String(String text, File file) {
+    public static String writeUtf8String(String text, File file) {
         writeUtf8String(text, file.toPath());
+        return text;
     }
 
     public static void writeUtf8String(String text, Path file) {

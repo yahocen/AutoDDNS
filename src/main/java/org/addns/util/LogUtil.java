@@ -80,8 +80,8 @@ public class LogUtil {
      *
      * @param message The message to log.
      */
-    public static void warn(String message) {
-        LOGGER.log(Level.WARNING, message);
+    public static void warn(String message, Object... args) {
+        LOGGER.log(Level.WARNING, String.format(message, args));
     }
 
     /**

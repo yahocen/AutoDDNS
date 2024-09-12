@@ -28,6 +28,8 @@ public class Constant {
 
     public static final String LOG_NAME;
 
+    public static final File PID_FILE;
+
     static {
         try {
             //https://stackoverflow.com/questions/77719096/get-directory-of-compiled-native-image-by-graalvm-at-runtime
@@ -39,6 +41,7 @@ public class Constant {
             V6_FILE = Paths.get(APP_BIN_PATH, "data", "ipv6.txt").toFile();
             LOG_PATH = Paths.get(APP_BIN_PATH, "log").toString();
             LOG_NAME = Paths.get(APP_BIN_PATH, "log", NAME + ".log").toString();
+            PID_FILE = Paths.get(APP_BIN_PATH, "data", "pid").toFile();
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -57,5 +60,15 @@ public class Constant {
     public static final int LOG_LIMIT = 3145728;
 
     public static final int LOG_COUNT = 10;
+
+    /**
+     * 自定义配置文件
+     */
+    public static final String PARAM_CONF = "-c";
+
+    /**
+     * 自定义配置文件
+     */
+    public static final String PARAM_STOP = "-s";
 
 }

@@ -26,6 +26,14 @@ public class App {
     public static void main(String[] args) {
         //初始化命令行参数
         Command.initInstance(args);
+        if(Command.Option.HELP.is()) {
+            Command.usage(System.out);
+            System.exit(0);
+        }
+        if(Command.Option.VERSION.is()) {
+            Command.version(System.out);
+            System.exit(0);
+        }
         //查询是否有实例正在运行
         if(Constant.PID_FILE.exists()) {
             long pid = Long.parseLong(FileUtil.readUtf8String(Constant.PID_FILE));

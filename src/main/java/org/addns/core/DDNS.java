@@ -25,6 +25,8 @@ public class DDNS implements Runnable {
 
     private String oldIpv6 = FileUtil.exist(Constant.V6_FILE) ?FileUtil.readUtf8String(Constant.V6_FILE) :null;
 
+    private DDNS() {}
+
     /**
      * 获取单例实例的方法。
      */

@@ -31,7 +31,7 @@ public class App {
             long pid = Long.parseLong(FileUtil.readUtf8String(Constant.PID_FILE));
             Optional<ProcessHandle> processHandle = ProcessHandle.of(pid);
             //是否用于停止现有进程
-            if(processHandle.isPresent() && Command.contains(Constant.PARAM_STOP)) {
+            if(processHandle.isPresent() && Command.Option.STOP.is()) {
                 processHandle.ifPresent(ProcessHandle::destroy);
                 LogUtil.info("终止正在运行的进程：%s", pid);
                 return;
@@ -43,7 +43,7 @@ public class App {
             }
         }
         //初始化配置信息
-        Config.initInstance(Command.contains(Constant.PARAM_CONF) ?Command.getStr(Constant.PARAM_CONF) :Constant.CONFIG_PATH);
+        Config.initInstance(Command.Option.CONF.get());
         //初始化 DNS API
         initDnsOper();
         //创建单线程池

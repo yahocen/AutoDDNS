@@ -12,7 +12,9 @@ import java.nio.file.Paths;
  */
 public class Constant {
 
-    public static final String NAME = "AutoDDNS";
+    public static final String NAME = "addns.exe";
+
+    public static final String VERSION = "2.0";
 
     public static final String APP_BIN_NAME;
 
@@ -60,15 +62,5 @@ public class Constant {
     public static final int LOG_LIMIT = 3145728;
 
     public static final int LOG_COUNT = 10;
-
-    /**
-     * 自定义配置文件
-     */
-    public static final String PARAM_CONF = "-c";
-
-    /**
-     * 自定义配置文件
-     */
-    public static final String PARAM_STOP = "-s";
 
 }

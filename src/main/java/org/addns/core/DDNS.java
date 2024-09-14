@@ -30,7 +30,7 @@ public class DDNS implements Runnable {
      */
     public static DDNS getInstance() {
         if (instance == null) {
-            synchronized (Config.class) {
+            synchronized (DDNS.class) {
                 if (instance == null) {
                     instance = new DDNS();
                 }

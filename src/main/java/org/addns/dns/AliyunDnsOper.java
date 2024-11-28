@@ -5,6 +5,7 @@ import com.jsoniter.any.Any;
 import com.jsoniter.output.JsonStream;
 import org.addns.conf.Constant;
 import org.addns.util.DomainUtil;
+import org.addns.util.HttpUtil;
 import org.addns.util.LogUtil;
 
 import javax.crypto.Mac;
@@ -29,8 +30,6 @@ public class AliyunDnsOper implements DnsOper {
      * 日期格式化工具，用于将日期时间字符串格式化为"yyyy-MM-dd'T'HH:mm:ss'Z'"的格式。
      */
     private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-
-    private static final HttpClient HTTP_CLIENT = HttpClient.newHttpClient();
 
     /**
      * RPC接口无资源路径，故使用正斜杠（/）作为CanonicalURI
@@ -131,13 +130,6 @@ public class AliyunDnsOper implements DnsOper {
         LogUtil.info("updateDomainRecord:" + resultStr);
     }
 
-    @Override
-    public void close() {
-        if(null != HTTP_CLIENT) {
-            HTTP_CLIENT.close();
-        }
-    }
-
     private static class Request {
         // HTTP Method
         private final String httpMethod;
@@ -209,7 +201,7 @@ public class AliyunDnsOper implements DnsOper {
                     throw new IllegalArgumentException("Unsupported HTTP method");
             }
             // 发送请求并获取响应
-            HttpResponse<String> response = HTTP_CLIENT.send(builder.build(), HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+            HttpResponse<String> response = HttpUtil.HTTP_CLIENT.send(builder.build(), HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
             // 打印响应
             return response.body();
         } catch (Exception e) {

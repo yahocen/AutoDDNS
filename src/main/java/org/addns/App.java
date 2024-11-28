@@ -9,6 +9,7 @@ import org.addns.dns.AliyunDnsOper;
 import org.addns.dns.DnsOper;
 import org.addns.dns.TrafficRouteDnsOper;
 import org.addns.util.FileUtil;
+import org.addns.util.HttpUtil;
 import org.addns.util.LogUtil;
 
 import java.util.*;
@@ -57,8 +58,11 @@ public class App {
         var executor = Executors.newSingleThreadScheduledExecutor();
         // 安排配置定时进行IP变化扫描
         executor.scheduleAtFixedRate(DDNS.getInstance(), 1, Config.getLong("period"), TimeUnit.SECONDS);
-        // 当不再需要定时任务时，关闭执行器
-        Runtime.getRuntime().addShutdownHook(new Thread(executor::shutdown));
+        // 系统关闭时释放资源
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            executor.shutdown();
+            HttpUtil.HTTP_CLIENT.close();
+        }));
         //保存进程PID
         FileUtil.writeUtf8String(String.valueOf(ProcessHandle.current().pid()), Constant.PID_FILE);
     }

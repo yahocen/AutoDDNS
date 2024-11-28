@@ -3,7 +3,7 @@ package org.addns.dns;
 /**
  * @author YahocenMiniPC
  */
-public interface DnsOper extends AutoCloseable {
+public interface DnsOper {
 
     void editDnsV4(String domain, String ipv4);
 

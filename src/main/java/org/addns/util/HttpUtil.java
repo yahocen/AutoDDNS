@@ -13,7 +13,7 @@ import java.util.LinkedHashMap;
  */
 public class HttpUtil {
 
-    private static final HttpClient HTTP_CLIENT = HttpClient.newHttpClient();
+    public static final HttpClient HTTP_CLIENT = HttpClient.newHttpClient();
 
     /**
      * 发送 GET 请求并返回响应内容。

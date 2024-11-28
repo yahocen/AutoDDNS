@@ -5,6 +5,7 @@ import com.jsoniter.any.Any;
 import com.jsoniter.output.JsonStream;
 import org.addns.conf.Constant;
 import org.addns.util.DomainUtil;
+import org.addns.util.HttpUtil;
 import org.addns.util.LogUtil;
 import org.addns.util.StrUtil;
 
@@ -28,7 +29,6 @@ import java.util.stream.Collectors;
  */
 public class TrafficRouteDnsOper implements DnsOper {
 
-    private static final HttpClient CLIENT = HttpClient.newHttpClient();
     private static final String DEFAULT_LINE = "default";
     private static final int TTL_VALUE = 600;
 
@@ -247,7 +247,7 @@ public class TrafficRouteDnsOper implements DnsOper {
             default -> throw new UnsupportedOperationException();
         };
         //发送请求
-        var response = CLIENT.send(request, HttpResponse.BodyHandlers.ofByteArray());
+        var response = HttpUtil.HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofByteArray());
         //解析结果
         Any entries = JsonIterator.deserialize(response.body());
         if(!entries.keys().contains("Result")) {
@@ -264,13 +264,6 @@ public class TrafficRouteDnsOper implements DnsOper {
 
     private Any getRequest( Map<String, Object> query, String action, byte[] body) throws URISyntaxException, IOException, InterruptedException {
         return request("GET", query, Map.of(), action, body);
-    }
-
-    @Override
-    public void close() {
-        if(null != CLIENT) {
-            CLIENT.close();
-        }
     }
 
 }

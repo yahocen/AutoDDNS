@@ -38,6 +38,9 @@ public class DomainUtil {
      */
     public static String getSubdomain(String domain) {
         String registeredDomain = getRegisteredDomain(domain);
+        if(domain.equals(registeredDomain)) {
+            return "@";
+        }
         return domain.substring(0, domain.indexOf(registeredDomain) - 1);
     }
 

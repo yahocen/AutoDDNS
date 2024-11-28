@@ -55,9 +55,9 @@ public class Constant {
 
     public static final String MODE_KEY = "mode";
 
-    public static final String MODE_V4 = "v4";
+    public static final String MODE_V4 = "A";
 
-    public static final String MODE_V6 = "v6";
+    public static final String MODE_V6 = "AAAA";
 
     public static final int LOG_LIMIT = 3145728;
 

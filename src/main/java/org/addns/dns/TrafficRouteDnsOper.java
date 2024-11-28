@@ -3,6 +3,7 @@ package org.addns.dns;
 import com.jsoniter.JsonIterator;
 import com.jsoniter.any.Any;
 import com.jsoniter.output.JsonStream;
+import org.addns.conf.Constant;
 import org.addns.util.DomainUtil;
 import org.addns.util.LogUtil;
 import org.addns.util.StrUtil;
@@ -28,9 +29,10 @@ import java.util.stream.Collectors;
 public class TrafficRouteDnsOper implements DnsOper {
 
     private static final HttpClient CLIENT = HttpClient.newHttpClient();
+    private static final String DEFAULT_LINE = "default";
+    private static final int TTL_VALUE = 600;
 
     private final String AK;
-
     private final String SK;
 
     public TrafficRouteDnsOper(Any conf) {
@@ -38,50 +40,44 @@ public class TrafficRouteDnsOper implements DnsOper {
         this.SK = conf.get("sk").toString();
     }
 
-    public static void analysisConf() {
-        // 子类提供的实现
-    }
-
     @Override
     public void editDnsV4(String domain, String ipv4) {
-        String type = "A";
-        String subdomain = DomainUtil.getSubdomain(domain);
-        getZid(DomainUtil.getRegisteredDomain(domain)).ifPresent(zid -> getRecordId(zid, domain, type).ifPresentOrElse(recordId -> {
-            try {
-                updateDns(recordId, type, ipv4, subdomain);
-                LogUtil.info("Update IPV4 parsing successful：%s -> %s", domain, ipv4);
-            } catch (URISyntaxException | IOException | InterruptedException e) {
-                LogUtil.error("Failed to update IPV4 parsing：%s -> %s", e, domain, ipv4);
-            }
-        }, () -> {
-            try {
-                createDns(zid, type, ipv4, subdomain);
-                LogUtil.info("PV4 parsing successfully created：%s -> %s", domain, ipv4);
-            } catch (URISyntaxException | IOException | InterruptedException e) {
-                LogUtil.error("Failed to create IPV4 parsing：%s -> %s", e, domain, ipv4);
-            }
-        }));
+        editDns(domain, ipv4, Constant.MODE_V4);
     }
 
     @Override
     public void editDnsV6(String domain, String ipv6) {
-        String type = "AAAA";
+        editDns(domain, ipv6, Constant.MODE_V6);
+    }
+
+    private void editDns(String domain, String ipAddress, String recordType) {
         String subdomain = DomainUtil.getSubdomain(domain);
-        getZid(DomainUtil.getRegisteredDomain(domain)).ifPresent(zid -> getRecordId(zid, domain, type).ifPresentOrElse(recordId -> {
-            try {
-                updateDns(recordId, type, ipv6, subdomain);
-                LogUtil.info("Update IPV6 parsing successful：%s -> %s", domain, ipv6);
-            } catch (URISyntaxException | IOException | InterruptedException e) {
-                LogUtil.error("Failed to update IPV6 parsing：%s -> %s", e, domain, ipv6);
+        Optional<Long> zid = getZid(DomainUtil.getRegisteredDomain(domain));
+        if(zid.isEmpty()) {
+            LogUtil.info("Error, unable to find domain name record: {} parsing: {} -> {}", recordType, domain, ipAddress);
+            return;
+        }
+        handleRecord(zid.get(), domain, ipAddress, subdomain, recordType);
+    }
+
+    private void handleRecord(Long zid, String domain, String ipAddress, String subdomain, String recordType) {
+        Optional<String> recordId = getRecordId(zid, domain, recordType);
+        try {
+            if (recordId.isPresent()) {
+                updateDns(recordId.get(), recordType, ipAddress, subdomain);
+                LogUtil.info("Update {} parsing successful: {} -> {}", recordType, domain, ipAddress);
+            } else {
+                createDns(zid, recordType, ipAddress, subdomain);
+                LogUtil.info("{} parsing successfully created: {} -> {}", recordType, domain, ipAddress);
             }
-        }, () -> {
-            try {
-                createDns(zid, type, ipv6, subdomain);
-                LogUtil.info("PV6 parsing successfully created：%s -> %s", domain, ipv6);
-            } catch (URISyntaxException | IOException | InterruptedException e) {
-                LogUtil.error("Failed to create IPV6 parsing：%s -> %s", e, domain, ipv6);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            // 根据 recordId 是否存在来决定日志信息
+            if (recordId.isPresent()) {
+                LogUtil.error("Failed to update {} parsing: {} -> {}", recordType, e, domain, ipAddress);
+            } else {
+                LogUtil.error("Failed to create {} parsing: {} -> {}", recordType, e, domain, ipAddress);
             }
-        }));
+        }
     }
 
     //=================================================================
@@ -89,9 +85,9 @@ public class TrafficRouteDnsOper implements DnsOper {
     private void updateDns(String recordId, String type, String ip, String host) throws URISyntaxException, IOException, InterruptedException {
         Map<String, Object> map = new HashMap<>(7);
         map.put("Host", host);
-        map.put("Line", "default");
+        map.put("Line", DEFAULT_LINE);
         map.put("RecordID", recordId);
-        map.put("TTL", 600);
+        map.put("TTL", TTL_VALUE);
         map.put("Type", type);
         map.put("Value", ip);
         map.put("Weight", 1);
@@ -107,8 +103,8 @@ public class TrafficRouteDnsOper implements DnsOper {
     private void createDns(Long zid, String type, String ip, String host) throws URISyntaxException, IOException, InterruptedException {
         Map<String, Object> data = new HashMap<>(6);
         data.put("Host", host);
-        data.put("Line", "default");
-        data.put("TTL", 600);
+        data.put("Line", DEFAULT_LINE);
+        data.put("TTL", TTL_VALUE);
         data.put("Type", type);
         data.put("Value", ip);
         data.put("ZID", zid);
@@ -268,6 +264,13 @@ public class TrafficRouteDnsOper implements DnsOper {
 
     private Any getRequest( Map<String, Object> query, String action, byte[] body) throws URISyntaxException, IOException, InterruptedException {
         return request("GET", query, Map.of(), action, body);
+    }
+
+    @Override
+    public void close() {
+        if(null != CLIENT) {
+            CLIENT.close();
+        }
     }
 
 }

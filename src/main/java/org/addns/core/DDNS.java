@@ -73,7 +73,8 @@ public class DDNS implements Runnable {
                 App.getDnsOper(domain.get(Constant.DNS_KEY).toString()).ifPresent(dnsOper -> {
                     if(Constant.MODE_V4.equals(domain.get(Constant.MODE_KEY).toString())) {
                         dnsOper.editDnsV4(domain.get(Constant.DOMAIN_KEY).toString(), newIpv4);
-                    }else{
+                    }
+                    if(Constant.MODE_V6.equals(domain.get(Constant.MODE_KEY).toString())) {
                         dnsOper.editDnsV6(domain.get(Constant.DOMAIN_KEY).toString(), newIpv6);
                     }
                 });
